@@ -35,10 +35,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  google_fonts: ^6.2.0
+  google_fonts: 
   carousel_slider:
-  smooth_page_indicator:
-  web_smooth_scroll:
+  lottie:
+  firebase_core:
 
 
 dev_dependencies:
@@ -60,6 +60,10 @@ flutter:
   assets:
   - assets/logo-bijeli.png
   - assets/pozadina1.jpeg
+  - assets/servis.json
+  - assets/telefon.png
+  - assets/pc.png
+  - assets/ostalo.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
