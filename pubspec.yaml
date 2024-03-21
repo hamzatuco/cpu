@@ -39,6 +39,7 @@ dependencies:
   carousel_slider:
   lottie:
   firebase_core:
+  google_maps:
 
 
 dev_dependencies:
@@ -59,11 +60,11 @@ dev_dependencies:
 flutter:
   assets:
   - assets/logo-bijeli.png
-  - assets/pozadina1.jpeg
   - assets/servis.json
   - assets/telefon.png
   - assets/pc.png
   - assets/ostalo.png
+  - assets/fb.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

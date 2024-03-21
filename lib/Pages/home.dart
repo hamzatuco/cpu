@@ -1,4 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api
+import 'package:cpu/Pages/GoogleMap.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -12,7 +13,22 @@ class Index extends StatefulWidget {
 }
 
 const double carouselHeight = 400; // Set your desired height here
-const double carouselWidth = 7000; // Set your desired width here
+const double carouselWidth = double.infinity; // Set your desired width here
+int activeIndex = 0;
+const urlImages = [
+  'https://i.ibb.co/fQqgXZL/redmi.jpg',
+  'https://i.ibb.co/xSjh8dw/redmi1.jpg',
+  'https://i.ibb.co/KDyV6kR/redmi11.jpg',
+  'https://i.ibb.co/tXdYF6j/7.jpg',
+  'https://i.ibb.co/cQ9Rvmj/11.jpg',
+  'https://i.ibb.co/88zG1F1/auto.jpg',
+  'https://i.ibb.co/3dcJG4C/auto1.jpg',
+  'https://i.ibb.co/NCdpjwb/ekran.jpg',
+  'https://i.ibb.co/hFz5CQ1/tv1.jpg',
+  'https://i.ibb.co/ypNGmg4/tv2.jpg',
+  'https://i.ibb.co/rMqG0FD/tv3.jpg',
+  'https://i.ibb.co/HzKfY1b/win.jpg'
+];
 
 List<Widget> containers = [
   Padding(
@@ -26,7 +42,7 @@ List<Widget> containers = [
             color: const Color(0xFF6970AE),
             width: 2,
           ),
-          color: Color.fromARGB(0, 245, 245, 245),
+          color: const Color.fromARGB(0, 245, 245, 245),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -118,7 +134,7 @@ List<Widget> containers = [
             color: const Color(0xFF7A6CAF),
             width: 2,
           ),
-          color: Color.fromARGB(0, 245, 245, 245),
+          color: const Color.fromARGB(0, 245, 245, 245),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -199,7 +215,7 @@ List<Widget> containers = [
             color: const Color(0xFF1F8A87),
             width: 2,
           ),
-          color: Color.fromARGB(0, 245, 245, 245),
+          color: const Color.fromARGB(0, 245, 245, 245),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -283,7 +299,7 @@ List<Widget> containersMobile = [
             color: const Color(0xFF6970AE),
             width: 2,
           ),
-          color: Color.fromARGB(0, 245, 245, 245),
+          color: const Color.fromARGB(0, 245, 245, 245),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -385,7 +401,7 @@ List<Widget> containersMobile = [
             color: const Color(0xFF7A6CAF),
             width: 2,
           ),
-          color: Color.fromARGB(0, 245, 245, 245),
+          color: const Color.fromARGB(0, 245, 245, 245),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -474,7 +490,7 @@ List<Widget> containersMobile = [
             color: const Color(0xFF1F8A87),
             width: 2,
           ),
-          color: Color.fromARGB(0, 245, 245, 245),
+          color: const Color.fromARGB(0, 245, 245, 245),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -1040,7 +1056,7 @@ class _IndexState extends State<Index> {
             MediaQuery.of(context).size.width < 800
                 ? Padding(
                     //PC content
-                    padding: const EdgeInsets.only(top: 0),
+                    padding: const EdgeInsets.only(top: 10),
                     child: CarouselSlider.builder(
                       itemCount: containersMobile.length,
                       itemBuilder: (context, index, realindex) {
@@ -1073,9 +1089,267 @@ class _IndexState extends State<Index> {
                       ),
                     ),
                   ),
+            Padding(
+              padding: const EdgeInsets.only(top: 150.0),
+              child: Text(
+                'GALERIJA',
+                style: GoogleFonts.rubik(
+                  color: const Color(0xFF6970AE),
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            Padding(
+              //custom divider
+              padding: const EdgeInsets.all(15.0),
+              child: Container(
+                width: 40, // Adjust width as needed
+                height: 3, // Adjust height as needed
+                decoration: BoxDecoration(
+                  color: const Color(0xFF6970AE),
+                  borderRadius:
+                      BorderRadius.circular(2), // Adjust radius as needed
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            MediaQuery.of(context).size.width < 1000
+                ? Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 15.0, right: 30, left: 30, bottom: 15),
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              'Istražite naše najnovije radove! Pregledajte galeriju slika i otkrijte kako smo transformirali uređaje naših klijenata. Od poboljšanja performansi CPU-a do ugradnje kamera i servisa mobilnih telefona, naše slike govore više od riječi. Svaka slika priča priču o našem posvećenom radu i stručnosti našeg tima. Otkrijte inspiraciju za vaš sljedeći projekat i uvjerite se u našu sposobnost da vaše uređaje dovedemo do savršenstva. Pogledajte naše radove i dopustite nam da vaše ideje pretvorimo u stvarnost.',
+                              style: GoogleFonts.rubik(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    width: double.infinity,
+                    height: 400,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF6970AE),
+                    ),
+                  )
+                : Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(right: 150, left: 150),
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              'Istražite naše najnovije radove! Pregledajte galeriju slika i otkrijte kako smo transformirali uređaje naših klijenata. Od poboljšanja performansi CPU-a do ugradnje kamera i servisa mobilnih telefona, naše slike govore više od riječi. Svaka slika priča priču o našem posvećenom radu i stručnosti našeg tima. Otkrijte inspiraciju za vaš sljedeći projekat i uvjerite se u našu sposobnost da vaše uređaje dovedemo do savršenstva. Pogledajte naše radove i dopustite nam da vaše ideje pretvorimo u stvarnost.',
+                              style: GoogleFonts.rubik(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    width: double.infinity,
+                    height: 250,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF6970AE),
+                    ),
+                  ),
+            SizedBox(
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  final isWideScreen = constraints.maxWidth > 800;
+
+                  double carouselHeight = isWideScreen ? 700 : 400;
+
+                  return CarouselSlider.builder(
+                    itemCount: urlImages.length,
+                    itemBuilder: (context, index, realindex) {
+                      final urlImage = urlImages[index];
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              10.0), // Adjust the value as needed
+                          border: Border.all(
+                            color: const Color(0xFF6970AE),
+                            width: 2.0, // Outline width
+                          ),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              15.0), // Adjust the value as needed
+                          child: Container(
+                            color: Colors.transparent, // Transparent fill color
+                            child: Padding(
+                              padding: const EdgeInsets.all(9.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  _showImageDialog(context, urlImage);
+                                },
+                                child: buildImage(urlImage, index),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    options: CarouselOptions(
+                      height: carouselHeight, // Use the calculated height
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 3),
+                      onPageChanged: ((index, reason) =>
+                          setState(() => activeIndex = index)),
+                    ),
+                  );
+                },
+              ),
+            ),
+            SizedBox(
+              height: 60,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(height: 60, child: Image.asset('assets/fb.png')),
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  textAlign: TextAlign.center,
+                  'Kako biste pratili naše najnovije objave i ostali u toku s najnovijim vijestima, zapratite našu Facebook stranicu!',
+                  style: GoogleFonts.rubik(
+                    color: Color(0xFF6970AE),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 150.0),
+              child: Text(
+                'POSJETITE NAS',
+                style: GoogleFonts.rubik(
+                  color: const Color(0xFF6970AE),
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            Padding(
+              //custom divider
+              padding: const EdgeInsets.all(15.0),
+              child: Container(
+                width: 40, // Adjust width as needed
+                height: 3, // Adjust height as needed
+                decoration: BoxDecoration(
+                  color: const Color(0xFF6970AE),
+                  borderRadius:
+                      BorderRadius.circular(2), // Adjust radius as needed
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 450,
+                  child: Lottie.network(
+                      'https://lottie.host/8cc5dd89-c342-40a9-a349-0545458b6d4d/BUIxYU8kgh.json'),
+                ),
+                SizedBox(
+                  width: 100,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      textAlign: TextAlign.center,
+                      'Posjetite nas i osigurajte besprijekoran rad svog uređaja uz našu stručnost i profesionalnu uslugu.',
+                      style: GoogleFonts.rubik(
+                        color: Color(0xFF6970AE),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    SizedBox(
+                      height: 400, // Adjust the height as needed
+                      width: 650,
+                      child: GoogleMap(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Container(
+              width: double.infinity,
+              height: 200,
+              decoration: const BoxDecoration(
+                color: Color(0xFF6970AE),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+}
+
+Widget buildImage(String urlImage, int index) => Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      child: Image.network(
+        urlImage, // Make sure urlImage is a valid image URL
+        fit: BoxFit.cover,
+      ),
+    );
+void _showImageDialog(BuildContext context, String imageUrl) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return Dialog(
+        child: Stack(
+          children: [
+            Image.network(imageUrl, fit: BoxFit.fill),
+            Positioned(
+              top: 0,
+              right: 10,
+              child: IconButton(
+                icon: const Icon(Icons.close_outlined,
+                    color: Colors.white, size: 32),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

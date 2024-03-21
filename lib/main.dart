@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
           color: Colors.transparent, // Set the app bar color to transparent
         ),
       ),
-      home: const Index(),
+      home: Index(),
       title: 'Proizvodnja paleta i drvnih proizvoda | Wanne d.o.o.',
       debugShowCheckedModeBanner: false,
     );
