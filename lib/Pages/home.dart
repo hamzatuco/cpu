@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+  // ignore_for_file: library_private_types_in_public_api
 import 'package:cpu/Pages/GoogleMap.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -764,7 +764,7 @@ class _IndexState extends State<Index> {
                                 TextButton(
                                   onPressed: () {},
                                   child: Text(
-                                    'Home',
+                                    'Početna',
                                     style: GoogleFonts.rubik(
                                       color: const Color(0xFF6970AE),
                                       fontSize: 14,
@@ -776,7 +776,7 @@ class _IndexState extends State<Index> {
                                 TextButton(
                                   onPressed: () {},
                                   child: Text(
-                                    'Repairs',
+                                    'Ponuda',
                                     style: GoogleFonts.rubik(
                                       color: const Color(0xFF6970AE),
                                       fontSize: 14,
@@ -788,7 +788,7 @@ class _IndexState extends State<Index> {
                                 TextButton(
                                   onPressed: () {},
                                   child: Text(
-                                    'Prices',
+                                    'Pronađite nas',
                                     style: GoogleFonts.rubik(
                                       color: const Color(0xFF6970AE),
                                       fontSize: 14,
@@ -800,7 +800,7 @@ class _IndexState extends State<Index> {
                                 TextButton(
                                   onPressed: () {},
                                   child: Text(
-                                    'Contact',
+                                    'Kontakt',
                                     style: GoogleFonts.rubik(
                                       color: const Color(0xFF6970AE),
                                       fontSize: 14,
@@ -1118,6 +1118,11 @@ class _IndexState extends State<Index> {
             ),
             MediaQuery.of(context).size.width < 1000
                 ? Container(
+                    width: double.infinity,
+                    height: 400,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF6970AE),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -1138,13 +1143,13 @@ class _IndexState extends State<Index> {
                         ),
                       ],
                     ),
+                  )
+                : Container(
                     width: double.infinity,
-                    height: 400,
+                    height: 250,
                     decoration: const BoxDecoration(
                       color: Color(0xFF6970AE),
                     ),
-                  )
-                : Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -1165,13 +1170,8 @@ class _IndexState extends State<Index> {
                         ),
                       ],
                     ),
-                    width: double.infinity,
-                    height: 250,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF6970AE),
-                    ),
                   ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Padding(
@@ -1224,21 +1224,43 @@ class _IndexState extends State<Index> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
+            MediaQuery.of(context).size.width < 1000
+?
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(height: 60, child: Image.asset('assets/fb.png')),
-                SizedBox(
+                const SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  textAlign: TextAlign.center,
+                  'Zapratite našu Facebook stranicu!',
+                  style: GoogleFonts.rubik(
+                    color: const Color(0xFF6970AE),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            )
+            :
+             
+             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(height: 60, child: Image.asset('assets/fb.png')),
+                const SizedBox(
                   width: 20,
                 ),
                 Text(
                   textAlign: TextAlign.center,
                   'Kako biste pratili naše najnovije objave i ostali u toku s najnovijim vijestima, zapratite našu Facebook stranicu!',
                   style: GoogleFonts.rubik(
-                    color: Color(0xFF6970AE),
+                    color: const Color(0xFF6970AE),
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
                   ),
@@ -1270,19 +1292,14 @@ class _IndexState extends State<Index> {
               ),
             ),
             const SizedBox(
-              height: 50,
+              height: 25,
             ),
-            Row(
+            MediaQuery.of(context).size.width < 1350
+?
+ Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: 450,
-                  child: Lottie.network(
-                      'https://lottie.host/8cc5dd89-c342-40a9-a349-0545458b6d4d/BUIxYU8kgh.json'),
-                ),
-                SizedBox(
-                  width: 100,
-                ),
+             
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -1290,18 +1307,69 @@ class _IndexState extends State<Index> {
                       textAlign: TextAlign.center,
                       'Posjetite nas i osigurajte besprijekoran rad svog uređaja uz našu stručnost i profesionalnu uslugu.',
                       style: GoogleFonts.rubik(
-                        color: Color(0xFF6970AE),
+                        color: const Color(0xFF6970AE),
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 400, // Adjust the height as needed
                       width: 650,
                       child: GoogleMap(),
+                    ),
+                  ],
+                ),
+              ],
+            )
+:
+
+            Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+
+              children: [
+                 Text(
+                      textAlign: TextAlign.center,
+                      'Posjetite nas i osigurajte besprijekoran rad svog uređaja uz našu stručnost i profesionalnu uslugu.',
+                      style: GoogleFonts.rubik(
+                        color: const Color(0xFF6970AE),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Container(
+                          height: 350,
+                          child: Lottie.network(
+                              'https://lottie.host/8cc5dd89-c342-40a9-a349-0545458b6d4d/BUIxYU8kgh.json'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 100,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                       
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        const SizedBox(
+                          height: 400, // Adjust the height as needed
+                          width: 650,
+                          child: GoogleMap(),
+                        ),
+                      ],
                     ),
                   ],
                 ),
