@@ -40,6 +40,9 @@ dependencies:
   lottie:
   firebase_core:
   google_maps:
+  url_launcher:
+  dotlottie_loader: ^0.0.3
+  rive:
 
 
 dev_dependencies:
@@ -60,11 +63,17 @@ dev_dependencies:
 flutter:
   assets:
   - assets/logo-bijeli.png
-  - assets/servis.json
   - assets/telefon.png
   - assets/pc.png
   - assets/ostalo.png
   - assets/fb.png
+  - assets/ig.png
+  - assets/fb1.png
+  - assets/bijelimali.png
+  - assets/anim.png
+
+
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

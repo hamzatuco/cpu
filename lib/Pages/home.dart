@@ -1,6 +1,8 @@
-  // ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, deprecated_member_use, constant_identifier_names
 import 'package:cpu/Pages/GoogleMap.dart';
+import 'package:cpu/Pages/kontakt.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -10,6 +12,78 @@ class Index extends StatefulWidget {
 
   @override
   _IndexState createState() => _IndexState();
+
+  void scrollToGalerija() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (galerijaCnt1.currentContext != null) {
+        Scrollable.ensureVisible(
+          galerijaCnt1.currentContext!,
+          alignment: 0.5,
+          duration: const Duration(milliseconds: 500),
+        );
+      }
+    });
+  }
+
+  void scrollToGalerijaMob() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (galerijaCnt.currentContext != null) {
+        Scrollable.ensureVisible(
+          galerijaCnt.currentContext!,
+          alignment: 0.5,
+          duration: const Duration(milliseconds: 500),
+        );
+      }
+    });
+  }
+
+  void scrollToPonuda() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (ponudaCnt1.currentContext != null) {
+        Scrollable.ensureVisible(
+          ponudaCnt1.currentContext!,
+          alignment: 0.5,
+          duration: const Duration(milliseconds: 500),
+        );
+      }
+    });
+  }
+
+  void scrollToPonudaMob() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (ponudaCnt.currentContext != null) {
+        Scrollable.ensureVisible(
+          ponudaCnt.currentContext!,
+          alignment: 0.5,
+          duration: const Duration(milliseconds: 500),
+        );
+      }
+    });
+  }
+
+  void scrollToMapa() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mapaCnt1.currentContext != null) {
+        Scrollable.ensureVisible(
+          mapaCnt1.currentContext!,
+          alignment: 0.5,
+          duration: const Duration(milliseconds: 500),
+        );
+      }
+    });
+  }
+
+  void scrollToMapaMob() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mapaCnt.currentContext != null) {
+        Scrollable.ensureVisible(
+          mapaCnt.currentContext!,
+          alignment: 0.5,
+          duration: const Duration(milliseconds: 500),
+        );
+      }
+    });
+  }
 }
 
 const double carouselHeight = 400; // Set your desired height here
@@ -29,9 +103,24 @@ const urlImages = [
   'https://i.ibb.co/rMqG0FD/tv3.jpg',
   'https://i.ibb.co/HzKfY1b/win.jpg'
 ];
+GlobalKey ponudaCnt = GlobalKey();
+GlobalKey ponudaCnt1 = GlobalKey();
+
+GlobalKey galerijaCnt = GlobalKey();
+GlobalKey galerijaCnt1 = GlobalKey();
+
+GlobalKey mapaCnt = GlobalKey();
+GlobalKey mapaCnt1 = GlobalKey();
+
+GlobalKey kontaktCnt = GlobalKey();
+
+enum Section { Ponuda, Galerija, Mapa, Kontakt }
+
+late final Section sectionToScroll;
 
 List<Widget> containers = [
   Padding(
+    key: ponudaCnt1,
     //PC content
     padding: const EdgeInsets.only(top: 30, right: 65.0, left: 65),
     child: Container(
@@ -57,7 +146,7 @@ List<Widget> containers = [
             ),
             Text(
               'SERVIS MOBILNIH UREĐAJA', // Replace with your phone number
-              style: GoogleFonts.rubik(
+              style: GoogleFonts.poppins(
                 color: const Color(0xFF6970AE),
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -80,7 +169,7 @@ List<Widget> containers = [
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
                 'Zamjena baterija', // Replace with your phone number
-                style: GoogleFonts.rubik(
+                style: GoogleFonts.poppins(
                   color: const Color(0xFF6970AE),
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -91,7 +180,7 @@ List<Widget> containers = [
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
                 'Zamjena displeja', // Replace with your phone number
-                style: GoogleFonts.rubik(
+                style: GoogleFonts.poppins(
                   color: const Color(0xFF6970AE),
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -102,7 +191,7 @@ List<Widget> containers = [
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
                 'Uklanjanje lozinki sa zaključanih uređaja', // Replace with your phone number
-                style: GoogleFonts.rubik(
+                style: GoogleFonts.poppins(
                   color: const Color(0xFF6970AE),
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -113,7 +202,7 @@ List<Widget> containers = [
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
                 'Sve ostale popravke/zamjene', // Replace with your phone number
-                style: GoogleFonts.rubik(
+                style: GoogleFonts.poppins(
                   color: const Color(0xFF6970AE),
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -289,6 +378,8 @@ List<Widget> containers = [
 
 List<Widget> containersMobile = [
   Padding(
+    key: ponudaCnt,
+
     //PC content
     padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
     child: Container(
@@ -575,6 +666,24 @@ class _IndexState extends State<Index> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Get the section passed from the previous page
+      final args = ModalRoute.of(context)!.settings.arguments;
+      Section? section = args != null ? args as Section : null;
+
+      // Scroll to the desired section based on the received arguments
+      if (section == Section.Galerija) {
+        if (galerijaCnt1.currentContext != null) {
+          // Scroll to the Galerija section
+          Scrollable.ensureVisible(
+            galerijaCnt1.currentContext!,
+            alignment: 0.5,
+            duration: const Duration(milliseconds: 500),
+          );
+        }
+      }
+      // Add similar logic for other sections if needed
+    });
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -628,7 +737,7 @@ class _IndexState extends State<Index> {
                                   color: Color(0xFF6970AE), size: 20),
                               const SizedBox(width: 5),
                               Text(
-                                '+387 123 123', // Replace with your phone number
+                                '064 43 28 059', // Replace with your address
                                 style: GoogleFonts.rubik(
                                   color: const Color(0xFF6970AE),
                                   fontSize: 14,
@@ -646,7 +755,7 @@ class _IndexState extends State<Index> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 300.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(right: 20.0),
@@ -663,7 +772,7 @@ class _IndexState extends State<Index> {
                                     color: Color(0xFF6970AE), size: 20),
                                 const SizedBox(width: 5),
                                 Text(
-                                  '+387 123 123', // Replace with your phone number
+                                  '064 43 28 059', // Replace with your address
                                   style: GoogleFonts.rubik(
                                     color: const Color(0xFF6970AE),
                                     fontSize: 14,
@@ -725,7 +834,7 @@ class _IndexState extends State<Index> {
                                   color: _showMenu
                                       ? Colors.transparent
                                       : const Color(0xFF6970AE),
-                                  width: 1, // Adjust border width as needed
+                                  width: 2, // Adjust border width as needed
                                 ),
                                 borderRadius: BorderRadius.circular(
                                     20), // Add border radius for rounded corners
@@ -755,60 +864,100 @@ class _IndexState extends State<Index> {
                               ),
                               border: Border.all(
                                 color: const Color(0xFF6970AE),
-                                width: 1,
+                                width: 2,
                               ),
                             ),
                             child: Column(
                               children: [
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 15),
                                 TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    'Početna',
-                                    style: GoogleFonts.rubik(
-                                      color: const Color(0xFF6970AE),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 20),
-                                TextButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    if (ponudaCnt.currentContext != null) {
+                                      Scrollable.ensureVisible(
+                                        ponudaCnt.currentContext!,
+                                        alignment:
+                                            0.5, // Adjust the alignment as needed
+                                        duration: const Duration(
+                                            milliseconds:
+                                                500), // Adjust the duration as needed
+                                      );
+                                    }
+                                  },
                                   child: Text(
                                     'Ponuda',
-                                    style: GoogleFonts.rubik(
+                                    style: GoogleFonts.poppins(
                                       color: const Color(0xFF6970AE),
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 15),
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    if (galerijaCnt.currentContext != null) {
+                                      Scrollable.ensureVisible(
+                                        galerijaCnt.currentContext!,
+                                        alignment:
+                                            0.5, // Adjust the alignment as needed
+                                        duration: const Duration(
+                                            milliseconds:
+                                                500), // Adjust the duration as needed
+                                      );
+                                    }
+                                  },
+                                  child: Text(
+                                    'Galerija',
+                                    style: GoogleFonts.poppins(
+                                      color: const Color(0xFF6970AE),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 15),
+                                TextButton(
+                                  onPressed: () async {
+                                    if (mapaCnt.currentContext != null) {
+                                      Scrollable.ensureVisible(
+                                        mapaCnt.currentContext!,
+                                        alignment:
+                                            0.5, // Adjust the alignment as needed
+                                        duration: const Duration(
+                                            milliseconds:
+                                                500), // Adjust the duration as needed
+                                      );
+                                    }
+                                  },
                                   child: Text(
                                     'Pronađite nas',
-                                    style: GoogleFonts.rubik(
+                                    style: GoogleFonts.poppins(
                                       color: const Color(0xFF6970AE),
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 15),
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Kontakt()), // Replace `KontaktPage()` with your Kontakt page widget
+                                    );
+                                  },
                                   child: Text(
                                     'Kontakt',
-                                    style: GoogleFonts.rubik(
+                                    style: GoogleFonts.poppins(
                                       color: const Color(0xFF6970AE),
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 15),
                               ],
                             ),
                           ),
@@ -829,46 +978,86 @@ class _IndexState extends State<Index> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                if (ponudaCnt1.currentContext != null) {
+                                  Scrollable.ensureVisible(
+                                    ponudaCnt1.currentContext!,
+                                    alignment:
+                                        0.5, // Adjust the alignment as needed
+                                    duration: const Duration(
+                                        milliseconds:
+                                            500), // Adjust the duration as needed
+                                  );
+                                }
+                              },
                               child: Text(
-                                'Home',
-                                style: GoogleFonts.rubik(
+                                'Ponuda',
+                                style: GoogleFonts.poppins(
                                   color: const Color(0xFF6970AE),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 40), // Increased spacing
+                            const SizedBox(width: 40),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                if (galerijaCnt1.currentContext != null) {
+                                  Scrollable.ensureVisible(
+                                    galerijaCnt1.currentContext!,
+                                    alignment:
+                                        0.5, // Adjust the alignment as needed
+                                    duration: const Duration(
+                                        milliseconds:
+                                            500), // Adjust the duration as needed
+                                  );
+                                }
+                              },
                               child: Text(
-                                'Repairs',
-                                style: GoogleFonts.rubik(
+                                'Galerija',
+                                style: GoogleFonts.poppins(
                                   color: const Color(0xFF6970AE),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 40), // Increased spacing
+                            const SizedBox(width: 40),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                if (mapaCnt1.currentContext != null) {
+                                  Scrollable.ensureVisible(
+                                    mapaCnt1.currentContext!,
+                                    alignment:
+                                        0.5, // Adjust the alignment as needed
+                                    duration: const Duration(
+                                        milliseconds:
+                                            500), // Adjust the duration as needed
+                                  );
+                                }
+                              },
                               child: Text(
-                                'Prices',
-                                style: GoogleFonts.rubik(
+                                'Pronađite nas',
+                                style: GoogleFonts.poppins(
                                   color: const Color(0xFF6970AE),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 40), // Increased spacing
+                            const SizedBox(width: 40),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Kontakt()), // Replace `KontaktPage()` with your Kontakt page widget
+                                );
+                              },
                               child: Text(
-                                'Contact',
-                                style: GoogleFonts.rubik(
+                                'Kontakt',
+                                style: GoogleFonts.poppins(
                                   color: const Color(0xFF6970AE),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
@@ -880,30 +1069,6 @@ class _IndexState extends State<Index> {
                       ],
                     ),
                   ),
-            Padding(
-              padding: const EdgeInsets.only(top: 50.0),
-              child: Text(
-                'ŠTA NUDIMO?',
-                style: GoogleFonts.rubik(
-                  color: const Color(0xFF6970AE),
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            Padding(
-              //custom divider
-              padding: const EdgeInsets.all(15.0),
-              child: Container(
-                width: 40, // Adjust width as needed
-                height: 3, // Adjust height as needed
-                decoration: BoxDecoration(
-                  color: const Color(0xFF6970AE),
-                  borderRadius:
-                      BorderRadius.circular(2), // Adjust radius as needed
-                ),
-              ),
-            ),
             MediaQuery.of(context).size.width < 1200
                 ? Padding(
                     //mobile content
@@ -921,19 +1086,24 @@ class _IndexState extends State<Index> {
                         ),
                         child: Column(
                           children: [
-                            SizedBox(
-                              width: 200, // Adjust width of animation
-                              height: 200, // Adjust height of animation
-                              child: Lottie.asset(
-                                'assets/servis.json',
-                                fit: BoxFit.cover, // Adjust fit as needed
-                              ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Image.asset(
+                              'assets/anim.png', // Replace with your JSON animation file path
+
+                              width: 200,
+                              height: 200,
+                              fit: BoxFit.contain,
+                            ),
+                            const SizedBox(
+                              height: 20,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
                                   right: 25.0, left: 25, bottom: 25),
                               child: Text(
-                                'Dobrodošli u naš servis elektroničkih uređaja i mobilnih telefona, Vaš pouzdani partner za sve popravke i održavanje. Smješteni u srcu Viteza, naš tim stručnjaka posvećen je pružanju vrhunskih usluga kako bi vaši uređaji bili u potpunosti funkcionalni.\n\nSpecijalizirani smo za CPU servis, pružajući dubinsko razumijevanje i stručnost u održavanju i popravci procesora vaših uređaja. Bez obzira radi li se o mobilnom telefonu, laptopu ili drugim elektroničkim uređajima, naši tehničari brzo će identificirati probleme i pružiti efikasna rješenja.\n\nPosjetite nas danas u Vitezu i povjerite nam svoje elektroničke uređaje. Vaši uređaji su u sigurnim rukama kod nas!',
+                                'Dobrodošli u naš servis elektroničkih uređaja i mobilnih telefona, Vaš pouzdani partner za sve popravke i održavanje. Smješteni u srcu Viteza, naš tim stručnjaka posvećen je pružanju vrhunskih usluga kako bi vaši uređaji bili u potpunosti funkcionalni.\n\nBez obzira radi li se o mobilnom telefonu, laptopu ili drugim elektroničkim uređajima, mi ćemo brzo identificirati probleme i pružiti efikasna rješenja.\n\nPosjetite nas danas u Vitezu i povjerite nam svoje elektroničke uređaje. Vaši uređaji su u sigurnim rukama kod nas!',
                                 style: GoogleFonts.rubik(
                                   color: const Color(0xFF6970AE),
                                   fontSize: 15,
@@ -966,13 +1136,11 @@ class _IndexState extends State<Index> {
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 100.0), // Adjust right padding
-                            child: SizedBox(
-                              width: 350, // Adjust width of animation
-                              height: 350, // Adjust height of animation
-                              child: Lottie.asset(
-                                'assets/servis.json',
-                                fit: BoxFit.cover, // Adjust fit as needed
-                              ),
+                            child: Lottie.network(
+                              'https://lottie.host/c819a159-ef42-44e5-a2fe-df29c958fde1/kWulZLDU1q.json', // Replace with your JSON animation file path
+                              width: 240,
+                              height: 240,
+                              fit: BoxFit.contain,
                             ),
                           ),
                           const SizedBox(
@@ -1001,7 +1169,7 @@ class _IndexState extends State<Index> {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 50.0),
                                   child: Text(
-                                    'Specijalizirani smo za CPU servis, pružajući dubinsko razumijevanje i stručnost u održavanju i popravci procesora vaših uređaja. Bez obzira radi li se o mobilnom telefonu, laptopu ili drugim elektroničkim uređajima, naši tehničari brzo će identificirati probleme i pružiti efikasna rješenja.',
+                                    'Bez obzira radi li se o mobilnom telefonu, laptopu ili drugim elektroničkim uređajima, naši tehničari brzo će identificirati probleme i pružiti efikasna rješenja.',
                                     style: GoogleFonts.rubik(
                                       color: const Color(0xFF6970AE),
                                       fontSize: 15,
@@ -1030,7 +1198,7 @@ class _IndexState extends State<Index> {
                     ),
                   ),
             Padding(
-              padding: const EdgeInsets.only(top: 150.0),
+              padding: const EdgeInsets.only(top: 100.0),
               child: Text(
                 'ŠTA NUDIMO?',
                 style: GoogleFonts.rubik(
@@ -1131,8 +1299,9 @@ class _IndexState extends State<Index> {
                             padding: const EdgeInsets.only(
                                 top: 15.0, right: 30, left: 30, bottom: 15),
                             child: Text(
+                              key: galerijaCnt,
                               textAlign: TextAlign.center,
-                              'Istražite naše najnovije radove! Pregledajte galeriju slika i otkrijte kako smo transformirali uređaje naših klijenata. Od poboljšanja performansi CPU-a do ugradnje kamera i servisa mobilnih telefona, naše slike govore više od riječi. Svaka slika priča priču o našem posvećenom radu i stručnosti našeg tima. Otkrijte inspiraciju za vaš sljedeći projekat i uvjerite se u našu sposobnost da vaše uređaje dovedemo do savršenstva. Pogledajte naše radove i dopustite nam da vaše ideje pretvorimo u stvarnost.',
+                              'Istražite naše najnovije radove! Pregledajte galeriju slika i otkrijte kako smo servisirali uređaje naših klijenata. Od ugradnje kamera, servisa mobilnih telefona, servisa računara, naše slike govore više od riječi. Svaka slika priča priču o našem posvećenom radu i stručnosti našeg tima. Otkrijte i uvjerite se u našu sposobnost da vaše uređaje dovedemo do savršenstva. Pogledajte naše radove i dopustite nam da vaše potrebe pretvorimo u stvarnost.',
                               style: GoogleFonts.rubik(
                                 color: Colors.white,
                                 fontSize: 17,
@@ -1159,7 +1328,7 @@ class _IndexState extends State<Index> {
                                 const EdgeInsets.only(right: 150, left: 150),
                             child: Text(
                               textAlign: TextAlign.center,
-                              'Istražite naše najnovije radove! Pregledajte galeriju slika i otkrijte kako smo transformirali uređaje naših klijenata. Od poboljšanja performansi CPU-a do ugradnje kamera i servisa mobilnih telefona, naše slike govore više od riječi. Svaka slika priča priču o našem posvećenom radu i stručnosti našeg tima. Otkrijte inspiraciju za vaš sljedeći projekat i uvjerite se u našu sposobnost da vaše uređaje dovedemo do savršenstva. Pogledajte naše radove i dopustite nam da vaše ideje pretvorimo u stvarnost.',
+                              'Istražite naše najnovije radove! Pregledajte galeriju slika i otkrijte kako smo servisirali uređaje naših klijenata. Od ugradnje kamera, servisa mobilnih telefona, servisa računara, naše slike govore više od riječi. Svaka slika priča priču o našem posvećenom radu i stručnosti našeg tima. Otkrijte i uvjerite se u našu sposobnost da vaše uređaje dovedemo do savršenstva. Pogledajte naše radove i dopustite nam da vaše potrebe pretvorimo u stvarnost.',
                               style: GoogleFonts.rubik(
                                 color: Colors.white,
                                 fontSize: 17,
@@ -1171,7 +1340,8 @@ class _IndexState extends State<Index> {
                       ],
                     ),
                   ),
-            const SizedBox(
+            SizedBox(
+              key: galerijaCnt1,
               height: 50,
             ),
             Padding(
@@ -1228,45 +1398,72 @@ class _IndexState extends State<Index> {
               height: 60,
             ),
             MediaQuery.of(context).size.width < 1000
-?
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(height: 60, child: Image.asset('assets/fb.png')),
-                const SizedBox(
-                  width: 20,
-                ),
-                Text(
-                  textAlign: TextAlign.center,
-                  'Zapratite našu Facebook stranicu!',
-                  style: GoogleFonts.rubik(
-                    color: const Color(0xFF6970AE),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: SizedBox(
+                          height: 60,
+                          child: Image.asset('assets/fb.png'),
+                        ), // Assuming 'fb1' is your image asset
+                        onPressed: () {
+                          _launchURL(
+                              'https://www.facebook.com/profile.php?id=61556737476101'); // Mark Zuckerberg's Facebook page
+                        },
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      GestureDetector(
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          'Zapratite našu Facebook stranicu!',
+                          style: GoogleFonts.rubik(
+                            color: const Color(0xFF6970AE),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        onTap: () {
+                          _launchURL(
+                              'https://www.facebook.com/profile.php?id=61556737476101'); // Mark Zuckerberg's Facebook page
+                        },
+                      ),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: SizedBox(
+                          height: 60,
+                          child: Image.asset('assets/fb.png'),
+                        ), // Assuming 'fb1' is your image asset
+                        onPressed: () {
+                          _launchURL(
+                              'https://www.facebook.com/profile.php?id=61556737476101'); // Mark Zuckerberg's Facebook page
+                        },
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      GestureDetector(
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          'Kako biste pratili naše najnovije objave i ostali u toku s najnovijim vijestima, zapratite našu Facebook stranicu!',
+                          style: GoogleFonts.rubik(
+                            color: const Color(0xFF6970AE),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        onTap: () {
+                          _launchURL(
+                              'https://www.facebook.com/profile.php?id=61556737476101'); // Mark Zuckerberg's Facebook page
+                        },
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            )
-            :
-             
-             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(height: 60, child: Image.asset('assets/fb.png')),
-                const SizedBox(
-                  width: 20,
-                ),
-                Text(
-                  textAlign: TextAlign.center,
-                  'Kako biste pratili naše najnovije objave i ostali u toku s najnovijim vijestima, zapratite našu Facebook stranicu!',
-                  style: GoogleFonts.rubik(
-                    color: const Color(0xFF6970AE),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
             Padding(
               padding: const EdgeInsets.only(top: 150.0),
               child: Text(
@@ -1295,97 +1492,547 @@ class _IndexState extends State<Index> {
               height: 25,
             ),
             MediaQuery.of(context).size.width < 1350
-?
- Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-             
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      textAlign: TextAlign.center,
-                      'Posjetite nas i osigurajte besprijekoran rad svog uređaja uz našu stručnost i profesionalnu uslugu.',
-                      style: GoogleFonts.rubik(
-                        color: const Color(0xFF6970AE),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            textAlign: TextAlign.center,
+                            'Posjetite nas i osigurajte besprijekoran rad svog uređaja uz našu stručnost i profesionalnu uslugu.',
+                            style: GoogleFonts.rubik(
+                              color: const Color(0xFF6970AE),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          SizedBox(
+                            key: mapaCnt,
+                            height: 400, // Adjust the height as needed
+                            width: 650,
+                            child: const GoogleMap(),
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    const SizedBox(
-                      height: 400, // Adjust the height as needed
-                      width: 650,
-                      child: GoogleMap(),
-                    ),
-                  ],
-                ),
-              ],
-            )
-:
-
-            Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-
-              children: [
-                 Text(
-                      textAlign: TextAlign.center,
-                      'Posjetite nas i osigurajte besprijekoran rad svog uređaja uz našu stručnost i profesionalnu uslugu.',
-                      style: GoogleFonts.rubik(
-                        color: const Color(0xFF6970AE),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
+                    ],
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        textAlign: TextAlign.center,
+                        'Posjetite nas i osigurajte besprijekoran rad svog uređaja uz našu stručnost i profesionalnu uslugu.',
+                        style: GoogleFonts.rubik(
+                          color: const Color(0xFF6970AE),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            children: [
+                              const SizedBox(
+                                height: 50,
+                              ),
+                              Lottie.network(
+                                'https://lottie.host/e5b0289f-16f6-49f4-a0b8-fca542a6072f/UT3bGvQGvF.json', // Replace with your JSON animation file path
+                                width: 300,
+                                height: 300,
+                                fit: BoxFit.contain,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 100,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                height: 50,
+                              ),
+                              SizedBox(
+                                height: 400, // Adjust the height as needed
+                                width: 650,
+                                child: GoogleMap(
+                                  key: mapaCnt1,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+            MediaQuery.of(context).size.width > 800
+                ? const SizedBox(
+                    height: 200,
+                  )
+                : const SizedBox(
+                    height: 25,
+                  ),
+            MediaQuery.of(context).size.width > 800
+                ? Container(
+                    width: double.infinity,
+                    height: 300,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF6970AE),
                     ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        SizedBox(
-                          height: 50,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 35,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.pin_drop,
+                                      color: Colors.white, size: 25),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'Ulica branilaca Starog Viteza bb. - 72251 Vitez', // Replace with your address
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.email,
+                                      color: Colors.white, size: 25),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'neki@email.com', // Replace with your email
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.phone,
+                                      color: Colors.white, size: 25),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    '064 43 28 059', // Replace with your address
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.access_time,
+                                      color: Colors.white, size: 25),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'Pon - Sub | 07:00 - 17:00', // Replace with your address
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            Row(
+                              children: [
+                                IconButton(
+                                  icon: SizedBox(
+                                    height: 30,
+                                    child: Image.asset('assets/fb1.png'),
+                                  ), // Assuming 'fb1' is your image asset
+                                  onPressed: () {
+                                    _launchURL(
+                                        'https://www.facebook.com/profile.php?id=61556737476101'); // Mark Zuckerberg's Facebook page
+                                  },
+                                ),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                IconButton(
+                                  icon: SizedBox(
+                                    height: 30,
+                                    child: Image.asset('assets/ig.png'),
+                                  ), // Assuming 'fb1' is your image asset
+                                  onPressed: () {
+                                    _launchURL(
+                                        'https://www.instagram.com/cpu_servis.ba/'); // Mark Zuckerberg's Facebook page
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        Container(
-                          height: 350,
-                          child: Lottie.network(
-                              'https://lottie.host/8cc5dd89-c342-40a9-a349-0545458b6d4d/BUIxYU8kgh.json'),
-                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 35,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 45.0),
+                              child: SizedBox(
+                                  height: 120,
+                                  child: Image.asset('assets/bijelimali.png')),
+                            ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Kontakt()), // Replace `KontaktPage()` with your Kontakt page widget
+                                );
+                              },
+                              child: Text(
+                                'Naša vizija', // Replace with your address
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Kontakt()), // Replace `KontaktPage()` with your Kontakt page widget
+                                  );
+                                },
+                                child: Text(
+                                  'Često postavljena pitanja', // Replace with your address
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 5.0, bottom: 5),
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Kontakt()), // Replace `KontaktPage()` with your Kontakt page widget
+                                  );
+                                },
+                                child: Text(
+                                  'Kontaktirajte nas', // Replace with your address
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
-                    const SizedBox(
-                      width: 100,
+                  )
+                : Container(
+                    width: double.infinity,
+                    height: 520,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF6970AE),
                     ),
-                    Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                       
-                        const SizedBox(
-                          height: 50,
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.pin_drop,
+                                      color: Colors.white, size: 25),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'Ul. branilaca Starog Viteza bb. - 72251 Vitez', // Replace with your address
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.email,
+                                      color: Colors.white, size: 25),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'neki@email.com', // Replace with your email
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.phone,
+                                      color: Colors.white, size: 25),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    '064 43 28 059', // Replace with your address
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.access_time,
+                                      color: Colors.white, size: 25),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'Pon - Sub | 07:00 - 17:00', // Replace with your address
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  icon: SizedBox(
+                                    height: 30,
+                                    child: Image.asset('assets/fb1.png'),
+                                  ), // Assuming 'fb1' is your image asset
+                                  onPressed: () {
+                                    _launchURL(
+                                        'https://www.facebook.com/profile.php?id=61556737476101'); // Mark Zuckerberg's Facebook page
+                                  },
+                                ),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                IconButton(
+                                  icon: SizedBox(
+                                    height: 30,
+                                    child: Image.asset('assets/ig.png'),
+                                  ), // Assuming 'fb1' is your image asset
+                                  onPressed: () {
+                                    _launchURL(
+                                        'https://www.instagram.com/cpu_servis.ba/'); // Mark Zuckerberg's Facebook page
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          height: 400, // Adjust the height as needed
-                          width: 650,
-                          child: GoogleMap(),
+                        Padding(
+                          //custom divider
+                          padding: const EdgeInsets.all(20.0),
+                          child: Container(
+                            width: 30, // Adjust width as needed
+                            height: 2, // Adjust height as needed
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(
+                                  2), // Adjust radius as needed
+                            ),
+                          ),
                         ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 14.0),
+                              child: SizedBox(
+                                  height: 80,
+                                  child: Image.asset('assets/bijelimali.png')),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 6.0, bottom: 5),
+                              child: Text(
+                                'Naša vizija', // Replace with your address
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 8.0, bottom: 5),
+                              child: Text(
+                                'Često postavljena pitanja', // Replace with your address
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 8.0, bottom: 5),
+                              child: Text(
+                                'Kontaktirajte nas', // Replace with your address
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
-                  ],
-                ),
-              ],
-            ),
-            Container(
-              width: double.infinity,
-              height: 200,
-              decoration: const BoxDecoration(
-                color: Color(0xFF6970AE),
-              ),
-            ),
+                  ),
+            MediaQuery.of(context).size.width > 800
+                ? Container(
+                    height: 50,
+                    width: double.infinity,
+                    color: Colors.white,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            'Copyright © 2024 Servis | CPU Servis', // Replace with your address
+                            style: GoogleFonts.poppins(
+                              color: const Color(0xFF6970AE),
+                              fontSize: 14,
+                            ),
+                          ),
+                          Text(
+                            'Powered by | CPU / All rights reserved', // Replace with your address
+                            style: GoogleFonts.poppins(
+                              color: const Color(0xFF6970AE),
+                              fontSize: 14,
+                            ),
+                          ),
+                        ]),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(bottom: 25.0),
+                    child: Container(
+                      height: 80,
+                      width: double.infinity,
+                      color: Colors.white,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 15),
+                            Text(
+                              'Copyright © 2024 Servis | CPU Servis', // Replace with your address
+                              style: GoogleFonts.poppins(
+                                color: const Color(0xFF6970AE),
+                                fontSize: 14,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              'Powered by | CPU / All rights reserved', // Replace with your address
+                              style: GoogleFonts.poppins(
+                                color: const Color(0xFF6970AE),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ]),
+                    ),
+                  ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 
